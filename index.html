@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odisha Learning Adventure</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2 id="loading-text">Loading...</h2>
+            <p id="loading-subtitle">Preparing your adventure</p>
+        </div>
+    </div>
+
+    <!-- Language Selection Screen -->
+    <div id="language-screen" class="screen">
+        <div class="container">
+            <div class="language-content">
+                <h1 id="welcome-title">Welcome!</h1>
+                <h2 id="choose-lang-title">Choose Your Language</h2>
+                <div class="language-options">
+                    <button class="language-btn" data-lang="en">
+                        <span class="flag">🇬🇧</span>
+                        <span>English</span>
+                    </button>
+                    <button class="language-btn" data-lang="od">
+                        <span class="flag">🏛️</span>
+                        <span>ଓଡ଼ିଆ</span>
+                    </button>
+                    <button class="language-btn" data-lang="hi">
+                        <span class="flag">🇮🇳</span>
+                        <span>हिंदी</span>
+                    </button>
+                </div>
+                <button id="audio-toggle" class="audio-btn">
+                    🔊 <span id="audio-text">Audio Help</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu Screen -->
+    <div id="main-menu" class="screen">
+        <div class="container">
+            <!-- Header with user info -->
+            <header class="user-header">
+                <div class="user-avatar">
+                    <div class="avatar-circle">👦</div>
+                    <div class="user-info">
+                        <div class="level-info">
+                            <span id="level-text">Level</span> <span id="user-level">1</span>
+                        </div>
+                        <div class="xp-bar">
+                            <div class="xp-fill" id="xp-progress"></div>
+                        </div>
+                        <div class="xp-text">
+                            <span id="user-xp">0</span>/<span id="xp-needed">100</span> XP
+                        </div>
+                    </div>
+                </div>
+                <div class="header-controls">
+                    <button id="lang-toggle" class="control-btn">🌐</button>
+                    <button id="audio-toggle-main" class="control-btn">🔊</button>
+                    <div class="coins-display">
+                        <span>🪙</span>
+                        <span id="user-coins">0</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- App Title -->
+            <h1 id="app-title" class="app-title">Odisha Learning Adventure</h1>
+
+            <!-- Main Menu Options -->
+            <div class="menu-grid">
+                <button class="menu-card" id="lessons-btn">
+                    <div class="menu-icon">📚</div>
+                    <h3 id="lessons-title">Lessons</h3>
+                    <p id="lessons-desc">Learn Something New</p>
+                </button>
+                
+                <button class="menu-card active" id="quiz-btn">
+                    <div class="menu-icon">🧠</div>
+                    <h3 id="quiz-title">Quiz Time</h3>
+                    <p id="quiz-desc">Test Your Knowledge</p>
+                </button>
+                
+                <button class="menu-card" id="games-btn">
+                    <div class="menu-icon">🎮</div>
+                    <h3 id="games-title">Fun Games</h3>
+                    <p id="games-desc">Play and Learn</p>
+                </button>
+                
+                <button class="menu-card" id="progress-btn">
+                    <div class="menu-icon">🏆</div>
+                    <h3 id="progress-title">My Progress</h3>
+                    <p id="progress-desc">See Your Achievements</p>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subject Selection Screen -->
+    <div id="subject-screen" class="screen">
+        <div class="container">
+            <header class="screen-header">
+                <button id="back-to-menu" class="back-btn">← <span id="back-text">Back</span></button>
+                <h2 id="choose-subject-title">Choose a Subject</h2>
+            </header>
+            
+            <div class="subjects-grid" id="subjects-container">
+                <!-- Subjects will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quiz-screen" class="screen">
+        <div class="container">
+            <!-- Quiz Header -->
+            <header class="quiz-header">
+                <button id="back-to-subjects" class="back-btn">← <span id="back-text-quiz">Back</span></button>
+                <div class="quiz-progress">
+                    <span id="question-counter">Question 1/5</span>
+                </div>
+                <div class="timer-container">
+                    <div class="timer-circle">
+                        <span id="timer-display">30</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Question Content -->
+            <div class="question-container">
+                <div class="character-section">
+                    <div class="character">🧑‍🏫</div>
+                    <div class="speech-bubble">
+                        <h3 id="question-text">Loading question...</h3>
+                    </div>
+                </div>
+
+                <!-- Answer Options -->
+                <div class="answers-grid" id="answers-container">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+
+                <!-- Submit Button -->
+                <button id="submit-answer" class="btn btn--primary btn--lg submit-btn" disabled>
+                    <span id="submit-text">Submit Answer</span>
+                </button>
+            </div>
+
+            <!-- Feedback Modal -->
+            <div id="feedback-modal" class="modal hidden">
+                <div class="modal-content">
+                    <div class="feedback-icon" id="feedback-icon">✅</div>
+                    <h3 id="feedback-title">Correct!</h3>
+                    <p id="feedback-explanation">Great job!</p>
+                    <button id="next-question" class="btn btn--primary">
+                        <span id="next-text">Next</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="results-screen" class="screen">
+        <div class="container">
+            <div class="results-content">
+                <div class="celebration-animation">
+                    <div class="confetti"></div>
+                    <div class="trophy">🏆</div>
+                </div>
+                
+                <h2 id="great-job-title">Great Job!</h2>
+                
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="score-percentage">80%</span>
+                    </div>
+                    <p><span id="correct-answers-text">Correct Answers</span>: <span id="correct-count">4</span>/5</p>
+                </div>
+
+                <div class="rewards-earned">
+                    <h3 id="rewards-title">Rewards Earned</h3>
+                    <div class="rewards-grid">
+                        <div class="reward-item">
+                            <span class="reward-icon">✨</span>
+                            <span><span id="xp-earned-text">XP Earned</span>: <span id="xp-earned">40</span></span>
+                        </div>
+                        <div class="reward-item">
+                            <span class="reward-icon">🪙</span>
+                            <span><span id="coins-earned-text">Coins Earned</span>: <span id="coins-earned">8</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level Up Modal -->
+                <div id="level-up-modal" class="modal celebration-modal hidden">
+                    <div class="modal-content">
+                        <div class="level-up-animation">🎉</div>
+                        <h2 id="level-up-title">Level Up!</h2>
+                        <div class="new-level">
+                            <span id="level-text-results">Level</span> <span id="new-level">2</span>
+                        </div>
+                        <button id="close-level-up" class="btn btn--primary">Awesome!</button>
+                    </div>
+                </div>
+
+                <div class="results-actions">
+                    <button id="continue-learning" class="btn btn--primary btn--lg">
+                        <span id="continue-text">Continue Learning</span>
+                    </button>
+                    <button id="try-again" class="btn btn--secondary btn--lg">
+                        <span id="try-again-text">Try Again</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Coming Soon Modal -->
+    <div id="coming-soon-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>🚧 Coming Soon!</h3>
+            <p>This feature will be available soon. Keep learning!</p>
+            <button id="close-coming-soon" class="btn btn--primary">OK</button>
+        </div>
+    </div>
+
+    <!-- Audio elements for sound effects -->
+    <audio id="click-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAkUXrTp66hVFApGn+D" type="audio/wav">
+    </audio>
+    <audio id="correct-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAkUXrTp66hVFApGn+D" type="audio/wav">
+    </audio>
+    <audio id="incorrect-sound" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAkUXrTp66hVFApGn+D" type="audio/wav">
+    </audio>
+
+    <script src="app.js"></script>
+</body>
+</html>
