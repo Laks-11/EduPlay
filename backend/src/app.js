@@ -15,6 +15,9 @@ function createApp({ db, config }) {
   const app = express();
 
   app.disable('x-powered-by');
+  // Behind a hosting proxy the real client IP is in X-Forwarded-For.
+// Without this, rate limits would count ALL users as one IP.
+if (config.isProd) app.set('trust proxy', 1);
   // The frontend uses inline <script>/styles and base64 audio in index.html, so the default
   // CSP would block it. Everything else in helmet's defaults stays on.
   app.use(helmet({ contentSecurityPolicy: false }));
