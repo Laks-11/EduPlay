@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Odisha Learning Adventure</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="auth.css">
 </head>
 <body>
     <!-- Loading Screen -->
@@ -39,6 +40,48 @@
                 <button id="audio-toggle" class="audio-btn">
                     🔊 <span id="audio-text">Audio Help</span>
                 </button>
+                <button id="signin-link" class="auth-link-btn" type="button">
+                    👤 <span id="signin-link-text">Sign in to save your progress</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sign In / Account Screen -->
+    <div id="auth-screen" class="screen">
+        <div class="container">
+            <header class="screen-header">
+                <button id="auth-back" class="back-btn" type="button">← <span id="auth-back-text">Back</span></button>
+            </header>
+
+            <div class="auth-card">
+                <!-- Shown when signed out -->
+                <div id="auth-form-panel">
+                    <h2 id="auth-title">Sign In</h2>
+                    <form id="auth-form" novalidate>
+                        <label>
+                            <span id="auth-username-label">Username</span>
+                            <input id="auth-username" class="form-control" type="text" autocomplete="username"
+                                   autocapitalize="none" autocorrect="off" spellcheck="false" maxlength="20" required>
+                        </label>
+                        <label>
+                            <span id="auth-password-label">Password</span>
+                            <input id="auth-password" class="form-control" type="password"
+                                   autocomplete="current-password" maxlength="72" required>
+                        </label>
+                        <p id="auth-error" class="auth-error" role="alert"></p>
+                        <button id="auth-submit" class="btn btn--primary btn--lg" type="submit">Sign In</button>
+                    </form>
+                    <button id="auth-switch" class="auth-link-btn" type="button"></button>
+                    <button id="auth-guest" class="auth-link-btn" type="button"></button>
+                </div>
+
+                <!-- Shown when signed in -->
+                <div id="auth-account-panel" class="hidden-el">
+                    <h2 id="auth-account-title"></h2>
+                    <p id="auth-sync-note" class="sync-note"></p>
+                    <button id="auth-logout" class="btn btn--secondary btn--lg" type="button">Log Out</button>
+                </div>
             </div>
         </div>
     </div>
@@ -63,6 +106,8 @@
                     </div>
                 </div>
                 <div class="header-controls">
+                    <span id="account-name" class="account-name"></span>
+                    <button id="account-btn" class="control-btn" type="button" aria-label="Account">👤</button>
                     <button id="lang-toggle" class="control-btn">🌐</button>
                     <button id="audio-toggle-main" class="control-btn">🔊</button>
                     <div class="coins-display">
@@ -244,6 +289,7 @@
         <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAkUXrTp66hVFApGn+D" type="audio/wav">
     </audio>
 
+    <script src="api-client.js"></script>
     <script src="app.js"></script>
 </body>
 </html>

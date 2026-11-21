@@ -38,7 +38,20 @@ const appData = {
       "settings": "Settings",
       "sound_on": "Sound On",
       "sound_off": "Sound Off",
-      "high_contrast": "High Contrast"
+      "high_contrast": "High Contrast",
+      "sign_in": "Sign In",
+      "create_account": "Create Account",
+      "username": "Username",
+      "password": "Password",
+      "continue_guest": "Continue as Guest",
+      "have_account": "Already have an account? Sign in",
+      "new_here": "New here? Create an account",
+      "logout": "Log Out",
+      "save_progress": "Sign in to save your progress",
+      "need_internet": "You need internet to sign in.",
+      "fill_both": "Please enter a username and password.",
+      "hello": "Hello",
+      "progress_synced": "Your progress is saved to your account."
     },
     "od": {
       "welcome": "ସ୍ୱାଗତ!",
@@ -77,7 +90,20 @@ const appData = {
       "settings": "ସେଟିଂ",
       "sound_on": "ଶବ୍ଦ ଚାଲୁ",
       "sound_off": "ଶବ୍ଦ ବନ୍ଦ",
-      "high_contrast": "ଅଧିକ ବିପରୀତ"
+      "high_contrast": "ଅଧିକ ବିପରୀତ",
+      "sign_in": "ଲଗ୍ ଇନ୍",
+      "create_account": "ଖାତା ଖୋଲ",
+      "username": "ଉପଯୋଗକର୍ତ୍ତା ନାମ",
+      "password": "ପାସୱାର୍ଡ",
+      "continue_guest": "ଅତିଥି ଭାବେ ଚାଲୁ ରଖ",
+      "have_account": "ପୂର୍ବରୁ ଖାତା ଅଛି? ଲଗ୍ ଇନ୍ କର",
+      "new_here": "ନୂଆ? ଖାତା ଖୋଲ",
+      "logout": "ଲଗ୍ ଆଉଟ୍",
+      "save_progress": "ପ୍ରଗତି ସେଭ୍ କରିବାକୁ ଲଗ୍ ଇନ୍ କର",
+      "need_internet": "ଲଗ୍ ଇନ୍ ପାଇଁ ଇଣ୍ଟରନେଟ୍ ଆବଶ୍ୟକ।",
+      "fill_both": "ଦୟାକରି ଉପଯୋଗକର୍ତ୍ତା ନାମ ଓ ପାସୱାର୍ଡ ଦିଅ।",
+      "hello": "ନମସ୍କାର",
+      "progress_synced": "ତୁମର ପ୍ରଗତି ତୁମ ଖାତାରେ ସେଭ୍ ହୋଇଛି।"
     },
     "hi": {
       "welcome": "स्वागत!",
@@ -116,7 +142,20 @@ const appData = {
       "settings": "सेटिंग",
       "sound_on": "आवाज़ चालू",
       "sound_off": "आवाज़ बंद",
-      "high_contrast": "उच्च कंट्रास्ट"
+      "high_contrast": "उच्च कंट्रास्ट",
+      "sign_in": "साइन इन",
+      "create_account": "खाता बनाएं",
+      "username": "उपयोगकर्ता नाम",
+      "password": "पासवर्ड",
+      "continue_guest": "अतिथि के रूप में जारी रखें",
+      "have_account": "पहले से खाता है? साइन इन करें",
+      "new_here": "नए हैं? खाता बनाएं",
+      "logout": "लॉग आउट",
+      "save_progress": "प्रगति सहेजने के लिए साइन इन करें",
+      "need_internet": "साइन इन के लिए इंटरनेट चाहिए।",
+      "fill_both": "कृपया उपयोगकर्ता नाम और पासवर्ड दर्ज करें।",
+      "hello": "नमस्ते",
+      "progress_synced": "आपकी प्रगति आपके खाते में सहेजी गई है।"
     }
   },
   "quizQuestions": {
@@ -332,6 +371,12 @@ const appData = {
   }
 };
 
+// Local questions get the same ids as the server's seed data (e.g. "math-1"), so quiz
+// results can be graded by the backend even when the questions came from this offline copy.
+Object.keys(appData.quizQuestions).forEach((subjectId) => {
+  appData.quizQuestions[subjectId].forEach((q, i) => { q.id = `${subjectId}-${i + 1}`; });
+});
+
 // Global Application State
 class LearningApp {
   constructor() {
@@ -346,7 +391,13 @@ class LearningApp {
     this.timeLeft = 30;
     this.selectedAnswer = null;
     
-    // Load user progress from localStorage
+    // Account state (null = guest, progress stays on this device only)
+    this.user = OdishaAPI.getUser();
+    this.authMode = 'login';
+    this.authReturnScreen = 'language-screen';
+    this.authBusy = false;
+    
+    // Load user progress from localStorage (cached copy of server progress when signed in)
     this.userProgress = this.loadProgress();
     
     // Initialize TTS
@@ -359,6 +410,7 @@ class LearningApp {
   init() {
     this.setupEventListeners();
     this.startLoadingSequence();
+    this.syncFromServer();
   }
   
   // LocalStorage Management
@@ -376,7 +428,7 @@ class LearningApp {
     };
     
     try {
-      const saved = localStorage.getItem('odisha_learning_progress');
+      const saved = localStorage.getItem(this.progressKey());
       return saved ? JSON.parse(saved) : defaultProgress;
     } catch (error) {
       console.error('Error loading progress:', error);
@@ -386,10 +438,141 @@ class LearningApp {
   
   saveProgress() {
     try {
-      localStorage.setItem('odisha_learning_progress', JSON.stringify(this.userProgress));
+      localStorage.setItem(this.progressKey(), JSON.stringify(this.userProgress));
     } catch (error) {
       console.error('Error saving progress:', error);
     }
+  }
+  
+  // ===== Accounts & server sync =====
+  progressKey() {
+    return this.user ? `odisha_learning_progress_user_${this.user.id}` : 'odisha_learning_progress';
+  }
+  
+  normalizeProgress(p) {
+    const base = { level: 1, xp: 0, coins: 0, subjectProgress: { math: 0, odia_lang: 0, science: 0, english: 0 } };
+    const incoming = p || {};
+    return Object.assign({}, base, incoming, {
+      subjectProgress: Object.assign({}, base.subjectProgress, incoming.subjectProgress)
+    });
+  }
+  
+  // Pull the authoritative progress from the server (after sending anything queued while offline).
+  // If the server can't be reached we simply keep the cached local copy.
+  async syncFromServer() {
+    if (!OdishaAPI.isLoggedIn()) return;
+    try {
+      await OdishaAPI.flushPending();
+      const data = await OdishaAPI.me();
+      this.user = data.user;
+      this.userProgress = this.normalizeProgress(data.progress);
+      this.saveProgress();
+      this.updateUserDisplay();
+      if (this.currentScreen === 'subject-screen') this.renderSubjects();
+    } catch (error) {
+      if (error.status === 401) {
+        // Session expired: fall back to guest mode on this device
+        this.user = null;
+        this.userProgress = this.loadProgress();
+        this.updateAccountUI();
+        this.updateUserDisplay();
+      }
+    }
+  }
+  
+  showAuthScreen(returnTo) {
+    this.authReturnScreen = returnTo || 'language-screen';
+    this.authMode = 'login';
+    document.getElementById('auth-error').textContent = '';
+    document.getElementById('auth-form').reset();
+    this.showScreen('auth-screen');
+    this.renderAuthText();
+  }
+  
+  leaveAuthScreen() {
+    if (this.authReturnScreen === 'main-menu') {
+      this.showMainMenu();
+    } else {
+      this.showScreen('language-screen');
+    }
+  }
+  
+  renderAuthText() {
+    const t = (key) => this.translate(key);
+    const set = (id, text) => {
+      const el = document.getElementById(id);
+      if (el) el.textContent = text;
+    };
+    const isRegister = this.authMode === 'register';
+    set('auth-title', t(isRegister ? 'create_account' : 'sign_in'));
+    set('auth-submit', t(isRegister ? 'create_account' : 'sign_in'));
+    set('auth-username-label', t('username'));
+    set('auth-password-label', t('password'));
+    set('auth-switch', t(isRegister ? 'have_account' : 'new_here'));
+    set('auth-guest', t('continue_guest'));
+    set('auth-back-text', t('back'));
+    set('auth-logout', t('logout'));
+    set('auth-sync-note', t('progress_synced'));
+    set('signin-link-text', t('save_progress'));
+    if (this.user) set('auth-account-title', `${t('hello')}, ${this.user.username}!`);
+    const pw = document.getElementById('auth-password');
+    if (pw) pw.setAttribute('autocomplete', isRegister ? 'new-password' : 'current-password');
+    this.updateAccountUI();
+  }
+  
+  updateAccountUI() {
+    const loggedIn = !!this.user;
+    const nameEl = document.getElementById('account-name');
+    if (nameEl) nameEl.textContent = loggedIn ? this.user.username : '';
+    const toggle = (id, hide) => {
+      const el = document.getElementById(id);
+      if (el) el.classList.toggle('hidden-el', hide);
+    };
+    toggle('signin-link', loggedIn);
+    toggle('auth-form-panel', loggedIn);
+    toggle('auth-account-panel', !loggedIn);
+  }
+  
+  async handleAuthSubmit(e) {
+    e.preventDefault();
+    if (this.authBusy) return;
+    const username = document.getElementById('auth-username').value.trim();
+    const password = document.getElementById('auth-password').value;
+    const errorEl = document.getElementById('auth-error');
+    errorEl.textContent = '';
+    if (!username || !password) {
+      errorEl.textContent = this.translate('fill_both');
+      return;
+    }
+    
+    this.authBusy = true;
+    document.getElementById('auth-submit').disabled = true;
+    try {
+      const data = this.authMode === 'register'
+        ? await OdishaAPI.register(username, password, this.currentLanguage)
+        : await OdishaAPI.login(username, password);
+      this.user = data.user;
+      this.userProgress = this.normalizeProgress(data.progress);
+      this.saveProgress();
+      if (this.authMode === 'login') this.setLanguage(data.user.language, { sync: false });
+      document.getElementById('auth-form').reset();
+      OdishaAPI.flushPending().catch(() => {});
+      this.showMainMenu();
+    } catch (error) {
+      errorEl.textContent = error.network ? this.translate('need_internet') : error.message;
+    } finally {
+      this.authBusy = false;
+      document.getElementById('auth-submit').disabled = false;
+    }
+  }
+  
+  handleLogout() {
+    OdishaAPI.logout();
+    this.user = null;
+    this.userProgress = this.loadProgress(); // back to this device's guest progress
+    this.updateAccountUI();
+    this.updateUserDisplay();
+    this.showScreen('language-screen');
   }
   
   // Translation System
@@ -406,6 +589,7 @@ class LearningApp {
         element.textContent = this.translate(key);
       }
     });
+    this.renderAuthText();
   }
   
   getTranslationKey(elementId) {
@@ -526,6 +710,25 @@ class LearningApp {
   }
   
   attachEventListeners() {
+    // Accounts
+    const on = (id, evt, fn) => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener(evt, fn);
+    };
+    on('signin-link', 'click', (e) => { e.preventDefault(); this.playSound('click'); this.showAuthScreen('language-screen'); });
+    on('account-btn', 'click', (e) => { e.preventDefault(); this.playSound('click'); this.showAuthScreen('main-menu'); });
+    on('auth-form', 'submit', (e) => this.handleAuthSubmit(e));
+    on('auth-switch', 'click', () => {
+      this.authMode = this.authMode === 'login' ? 'register' : 'login';
+      document.getElementById('auth-error').textContent = '';
+      this.renderAuthText();
+    });
+    on('auth-guest', 'click', () => this.leaveAuthScreen());
+    on('auth-back', 'click', () => this.leaveAuthScreen());
+    on('auth-logout', 'click', () => this.handleLogout());
+    // Send any quiz results saved while offline as soon as the connection returns
+    window.addEventListener('online', () => this.syncFromServer());
+    
     // Language selection
     const languageButtons = document.querySelectorAll('.language-btn');
     languageButtons.forEach(btn => {
@@ -673,10 +876,12 @@ class LearningApp {
   }
   
   // Language Management
-  setLanguage(lang) {
+  setLanguage(lang, options) {
     this.currentLanguage = lang;
     this.updateAllTranslations();
     document.documentElement.lang = lang === 'od' ? 'or' : lang;
+    // Remember the choice on the account (skipped when the language came *from* the account)
+    if (!options || options.sync !== false) OdishaAPI.saveLanguage(lang);
   }
   
   showLanguageSelector() {
@@ -699,6 +904,7 @@ class LearningApp {
   // Main Menu
   showMainMenu() {
     this.showScreen('main-menu');
+    this.updateAccountUI();
     this.updateUserDisplay();
     this.updateAllTranslations();
     setTimeout(() => {
@@ -763,18 +969,31 @@ class LearningApp {
   }
   
   // Quiz System
-  startQuiz(subjectId) {
+  async startQuiz(subjectId) {
+    if (this.startingQuiz) return; // ignore double-taps while questions are loading
+    this.startingQuiz = true;
+    this.quizFinished = false;
     this.currentSubject = subjectId;
     this.currentQuestionIndex = 0;
     this.userAnswers = [];
     this.selectedAnswer = null;
     
-    // Get questions for the subject
-    const allQuestions = appData.quizQuestions[subjectId] || [];
-    
-    // Randomly select questions (up to questionsPerQuiz)
-    this.quizQuestions = this.shuffleArray([...allQuestions])
-      .slice(0, Math.min(appData.gameConfig.questionsPerQuiz, allQuestions.length));
+    // Prefer fresh questions from the server; fall back to the copy bundled in this file
+    // (offline, server down, or no questions for this subject yet).
+    let questions = null;
+    try {
+      const data = await OdishaAPI.fetchQuiz(subjectId, appData.gameConfig.questionsPerQuiz);
+      if (data && Array.isArray(data.questions) && data.questions.length) questions = data.questions;
+    } catch (error) {
+      // offline: use local questions below
+    }
+    if (!questions) {
+      const allQuestions = appData.quizQuestions[subjectId] || [];
+      questions = this.shuffleArray([...allQuestions])
+        .slice(0, Math.min(appData.gameConfig.questionsPerQuiz, allQuestions.length));
+    }
+    this.quizQuestions = questions;
+    this.startingQuiz = false;
     
     this.showScreen('quiz-screen');
     this.updateAllTranslations();
@@ -987,32 +1206,67 @@ class LearningApp {
     this.loadQuestion();
   }
   
-  showResults() {
+  async showResults() {
+    if (this.quizFinished) return; // never pay out the same quiz twice
+    this.quizFinished = true;
     const correctAnswers = this.userAnswers.filter(answer => answer.isCorrect).length;
     const totalQuestions = this.quizQuestions.length;
     const percentage = Math.round((correctAnswers / totalQuestions) * 100);
     
-    // Calculate rewards
-    const xpEarned = correctAnswers * appData.gameConfig.xpPerQuestion;
-    const coinsEarned = correctAnswers * appData.gameConfig.coinsPerQuestion;
+    // Calculate rewards (local estimate - used for guests and when the server is unreachable)
+    let xpEarned = correctAnswers * appData.gameConfig.xpPerQuestion;
+    let coinsEarned = correctAnswers * appData.gameConfig.coinsPerQuestion;
+    let leveledUp = false;
+    let currentLevel = 1;
+    let savedOnServer = false;
     
-    // Update user progress
-    const previousLevel = Math.floor(this.userProgress.xp / appData.gameConfig.xpPerLevel) + 1;
-    this.userProgress.xp += xpEarned;
-    this.userProgress.coins += coinsEarned;
+    // Signed in: the server grades the quiz itself and returns the official rewards/progress
+    if (OdishaAPI.isLoggedIn()) {
+      try {
+        const response = await OdishaAPI.submitQuiz({
+          subjectId: this.currentSubject,
+          answers: this.userAnswers.map(a => ({
+            questionId: this.quizQuestions[a.questionIndex].id,
+            selected: a.selectedAnswer
+          }))
+        });
+        xpEarned = response.result.xpEarned;
+        coinsEarned = response.result.coinsEarned;
+        leveledUp = response.result.leveledUp;
+        this.userProgress = this.normalizeProgress(response.progress);
+        currentLevel = this.userProgress.level;
+        savedOnServer = true;
+        this.saveProgress();
+      } catch (error) {
+        if (error.status === 401) {
+          // Session expired: continue as a guest on this device
+          this.user = null;
+          this.userProgress = this.loadProgress();
+          this.updateAccountUI();
+        }
+        // Offline errors were queued by api-client and will sync automatically later
+      }
+    }
     
-    // Update subject progress
-    const newSubjectProgress = Math.max(
-      this.userProgress.subjectProgress[this.currentSubject] || 0,
-      percentage
-    );
-    this.userProgress.subjectProgress[this.currentSubject] = newSubjectProgress;
-    
-    const currentLevel = Math.floor(this.userProgress.xp / appData.gameConfig.xpPerLevel) + 1;
-    const leveledUp = currentLevel > previousLevel;
-    
-    // Save progress
-    this.saveProgress();
+    if (!savedOnServer) {
+      // Update user progress locally
+      const previousLevel = Math.floor(this.userProgress.xp / appData.gameConfig.xpPerLevel) + 1;
+      this.userProgress.xp += xpEarned;
+      this.userProgress.coins += coinsEarned;
+      
+      // Update subject progress
+      const newSubjectProgress = Math.max(
+        this.userProgress.subjectProgress[this.currentSubject] || 0,
+        percentage
+      );
+      this.userProgress.subjectProgress[this.currentSubject] = newSubjectProgress;
+      
+      currentLevel = Math.floor(this.userProgress.xp / appData.gameConfig.xpPerLevel) + 1;
+      leveledUp = currentLevel > previousLevel;
+      
+      // Save progress
+      this.saveProgress();
+    }
     
     // Show results screen
     this.showScreen('results-screen');
@@ -1103,7 +1357,9 @@ class LearningApp {
         break;
       case 'Enter':
         // Activate focused element
-        if (document.activeElement && document.activeElement.click) {
+        // (inputs/buttons/links already handle Enter natively; clicking again would fire twice)
+        if (document.activeElement && document.activeElement.click &&
+            !['INPUT', 'BUTTON', 'A', 'TEXTAREA', 'SELECT'].includes(document.activeElement.tagName)) {
           document.activeElement.click();
         }
         break;

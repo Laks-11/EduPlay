@@ -1,0 +1,12 @@
+{
+  "name": "eduplay",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Offline-first gamified learning platform for children in Odisha (frontend + Node.js backend)",
+  "scripts": {
+    "setup": "npm --prefix backend ci",
+    "start": "npm --prefix backend start",
+    "dev": "npm --prefix backend run dev",
+    "test": "npm --prefix backend test"
+  }
+}
