@@ -1,0 +1,38 @@
+[
+  {
+    "id": "math",
+    "name": {
+      "en": "Mathematics",
+      "od": "ଗଣିତ",
+      "hi": "गणित"
+    },
+    "icon": "🔢"
+  },
+  {
+    "id": "odia_lang",
+    "name": {
+      "en": "Odia Language",
+      "od": "ଓଡ଼ିଆ ଭାଷା",
+      "hi": "ओडिया भाषा"
+    },
+    "icon": "📝"
+  },
+  {
+    "id": "science",
+    "name": {
+      "en": "Science",
+      "od": "ବିଜ୍ଞାନ",
+      "hi": "विज्ञान"
+    },
+    "icon": "🔬"
+  },
+  {
+    "id": "english",
+    "name": {
+      "en": "English",
+      "od": "ଇଂରାଜୀ",
+      "hi": "अंग्रेजी"
+    },
+    "icon": "🇬🇧"
+  }
+]

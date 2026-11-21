@@ -1,0 +1,7 @@
+{
+  "xpPerQuestion": 10,
+  "coinsPerQuestion": 2,
+  "xpPerLevel": 100,
+  "timerSeconds": 30,
+  "questionsPerQuiz": 5
+}

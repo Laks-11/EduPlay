@@ -1,0 +1,254 @@
+[
+  {
+    "id": "math-1",
+    "subjectId": "math",
+    "question": {
+      "en": "Jagannath Temple has 4 main doors. If each door has 3 guards, how many guards are there in total?",
+      "od": "ଜଗନ୍ନାଥ ମନ୍ଦିରର ୪ଟି ମୁଖ୍ୟ ଦ୍ୱାର ଅଛି। ପ୍ରତି ଦ୍ୱାରରେ ୩ ଜଣ ପ୍ରହରୀ ଅଛନ୍ତି। ମୋଟ କେତେ ପ୍ରହରୀ ଅଛନ୍ତି?",
+      "hi": "जगन्नाथ मंदिर के 4 मुख्य दरवाजे हैं। यदि हर दरवाजे पर 3 गार्ड हैं, तो कुल कितने गार्ड हैं?"
+    },
+    "options": [
+      "10",
+      "12",
+      "14",
+      "16"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "4 doors × 3 guards = 12 guards total",
+      "od": "୪ ଦ୍ୱାର × ୩ ପ୍ରହରୀ = ୧୨ ପ୍ରହରୀ",
+      "hi": "4 दरवाजे × 3 गार्ड = 12 गार्ड कुल"
+    }
+  },
+  {
+    "id": "math-2",
+    "subjectId": "math",
+    "question": {
+      "en": "During Kali Puja, if 15 lamps are lit and 8 more are added, how many lamps are burning?",
+      "od": "କାଳୀ ପୂଜାରେ ୧୫ଟି ଦୀପ ଜଳୁଛି ଏବଂ ଆଉ ୮ଟି ଯୋଗ କଲେ, କେତେ ଦୀପ ଜଳୁଛି?",
+      "hi": "काली पूजा में 15 दीप जल रहे हैं और 8 और जोड़े गए हैं, कुल कितने दीप जल रहे हैं?"
+    },
+    "options": [
+      "20",
+      "23",
+      "25",
+      "28"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "15 + 8 = 23 lamps",
+      "od": "ୁ୧୫ + ୮ = ୨୩ ଦୀପ",
+      "hi": "15 + 8 = 23 दीप"
+    }
+  },
+  {
+    "id": "math-3",
+    "subjectId": "math",
+    "question": {
+      "en": "A farmer has 24 coconuts. He sells them in groups of 6. How many groups can he make?",
+      "od": "ଜଣେ କୃଷକଙ୍କ ପାଖରେ ୨୪ଟି ନଡ଼ିଆ ଅଛି। ସେ ୬ଟି ଲେଖାଏଁ ଗୋଷ୍ଠୀରେ ବିକ୍ରି କରନ୍ତି। କେତେ ଗୋଷ୍ଠୀ ତିଆରି ହୋଇପାରିବ?",
+      "hi": "एक किसान के पास 24 नारियल हैं। वह उन्हें 6-6 के समूह में बेचता है। कितने समूह बना सकता है?"
+    },
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "24 ÷ 6 = 4 groups",
+      "od": "୨୪ ÷ ୬ = ୪ ଗୋଷ୍ଠୀ",
+      "hi": "24 ÷ 6 = 4 समूह"
+    }
+  },
+  {
+    "id": "math-4",
+    "subjectId": "math",
+    "question": {
+      "en": "What is 7 × 8?",
+      "od": "୭ × ୮ = କେତେ?",
+      "hi": "7 × 8 = कितना?"
+    },
+    "options": [
+      "54",
+      "56",
+      "58",
+      "60"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "7 × 8 = 56",
+      "od": "୭ × ୮ = ୫୬",
+      "hi": "7 × 8 = 56"
+    }
+  },
+  {
+    "id": "math-5",
+    "subjectId": "math",
+    "question": {
+      "en": "If a boat can carry 12 people and there are 48 people waiting, how many trips are needed?",
+      "od": "ଯଦି ଗୋଟିଏ ଡଙ୍ଗା ୧୨ ଜଣ ଲୋକଙ୍କୁ ନେଇପାରେ ଏବଂ ୪୮ ଜଣ ଲୋକ ଅପେକ୍ଷା କରୁଛନ୍ତି, କେତେ ଯାତ୍ରା ଦରକାର?",
+      "hi": "यदि एक नाव 12 लोगों को ले जा सकती है और 48 लोग इंतजार कर रहे हैं, तो कितनी यात्राएं चाहिए?"
+    },
+    "options": [
+      "3",
+      "4",
+      "5",
+      "6"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "48 ÷ 12 = 4 trips",
+      "od": "୪୮ ÷ ୧୨ = ୪ ଯାତ୍ରା",
+      "hi": "48 ÷ 12 = 4 यात्राएं"
+    }
+  },
+  {
+    "id": "science-1",
+    "subjectId": "science",
+    "question": {
+      "en": "Which tree is considered most sacred in Odisha culture?",
+      "od": "ଓଡ଼ିଶା ସଂସ୍କୃତିରେ କେଉଁ ଗଛ ସବୁଠାରୁ ପବିତ୍ର ବୋଲି ଧରାଯାଏ?",
+      "hi": "ओडिशा संस्कृति में कौन सा पेड़ सबसे पवित्र माना जाता है?"
+    },
+    "options": [
+      "Mango",
+      "Banyan",
+      "Coconut",
+      "Neem"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "The Banyan tree is considered most sacred in Odisha culture",
+      "od": "ବଟ ଗଛ ଓଡ଼ିଶା ସଂସ୍କୃତିରେ ସବୁଠାରୁ ପବିତ୍ର",
+      "hi": "बरगद का पेड़ ओडिशा संस्कृति में सबसे पवित्र माना जाता है"
+    }
+  },
+  {
+    "id": "science-2",
+    "subjectId": "science",
+    "question": {
+      "en": "What do plants need to make their own food?",
+      "od": "ଉଦ୍ଭିଦମାନେ ନିଜର ଖାଦ୍ୟ ତିଆରି କରିବା ପାଇଁ କଣ ଦରକାର?",
+      "hi": "पौधे अपना भोजन बनाने के लिए क्या चाहते हैं?"
+    },
+    "options": [
+      "Only water",
+      "Only sunlight",
+      "Sunlight and water",
+      "Only soil"
+    ],
+    "correct": 2,
+    "explanation": {
+      "en": "Plants need sunlight and water to make food through photosynthesis",
+      "od": "ଉଦ୍ଭିଦମାନେ ଫଟୋସିନ୍ଥେସିସ୍ ମାଧ୍ୟମରେ ଖାଦ୍ୟ ତିଆରି କରିବା ପାଇଁ ସୂର୍ଯ୍ୟାଲୋକ ଏବଂ ପାଣି ଦରକାର",
+      "hi": "प्रकाश संश्लेषण के द्वारा भोजन बनाने के लिए पौधों को सूर्य प्रकाश और पानी की जरूरत होती है"
+    }
+  },
+  {
+    "id": "science-3",
+    "subjectId": "science",
+    "question": {
+      "en": "During monsoon season in Odisha, what happens most?",
+      "od": "ଓଡ଼ିଶାର ବର୍ଷା ଋତୁରେ କଣ ସବୁଠାରୁ ଅଧିକ ହୁଏ?",
+      "hi": "ओडिशा में मानसून के मौसम में क्या सबसे ज्यादा होता है?"
+    },
+    "options": [
+      "Snow falls",
+      "Heavy rainfall",
+      "Very hot weather",
+      "Strong winds only"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "Heavy rainfall occurs during monsoon season",
+      "od": "ବର୍ଷା ଋତୁରେ ପ୍ରବଳ ବର୍ଷା ହୁଏ",
+      "hi": "मानसून के मौसम में भारी बारिश होती है"
+    }
+  },
+  {
+    "id": "odia_lang-1",
+    "subjectId": "odia_lang",
+    "question": {
+      "en": "What is 'Namaste' in Odia?",
+      "od": "'ନମସ୍କାର' ଇଂରାଜୀରେ କଣ?",
+      "hi": "ओडिया में 'नमस्ते' क्या होता है?"
+    },
+    "options": [
+      "Dhanyabad",
+      "Namaskar",
+      "Asobad",
+      "Bidaya"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "Namaskar means 'Namaste' in Odia",
+      "od": "'ନମସ୍କାର' ଓଡ଼ିଆରେ 'ନମସ୍ତେ' ଅର୍ଥ",
+      "hi": "ओडिया में नमस्कार का मतलब 'नमस्ते' होता है"
+    }
+  },
+  {
+    "id": "odia_lang-2",
+    "subjectId": "odia_lang",
+    "question": {
+      "en": "In which season does the famous Jagannath Rath Yatra take place?",
+      "od": "ପ୍ରସିଦ୍ଧ ଜଗନ୍ନାଥ ରଥଯାତ୍ରା କେଉଁ ଋତୁରେ ହୁଏ?",
+      "hi": "प्रसिद्ध जगन्नाथ रथ यात्रा किस ऋतु में होती है?"
+    },
+    "options": [
+      "Winter",
+      "Summer",
+      "Monsoon",
+      "Spring"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "Jagannath Rath Yatra takes place during summer (Ashadha month)",
+      "od": "ଜଗନ୍ନାଥ ରଥଯାତ୍ରା ଗ୍ରୀଷ୍ମ ଋତୁରେ (ଆଷାଢ଼ ମାସରେ) ହୁଏ",
+      "hi": "जगन्नाथ रथ यात्रा गर्मियों में (आषाढ़ माह में) होती है"
+    }
+  },
+  {
+    "id": "english-1",
+    "subjectId": "english",
+    "question": {
+      "en": "What is the opposite of 'big'?",
+      "od": "'ବଡ଼'ର ବିପରୀତ ଶବ୍ଦ କଣ?",
+      "hi": "'big' का विपरीत क्या है?"
+    },
+    "options": [
+      "Large",
+      "Small",
+      "Huge",
+      "Giant"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "Small is the opposite of big",
+      "od": "'ଛୋଟ' ହେଉଛି 'ବଡ଼'ର ବିପରୀତ",
+      "hi": "'Small' 'big' का विपरीत है"
+    }
+  },
+  {
+    "id": "english-2",
+    "subjectId": "english",
+    "question": {
+      "en": "Which word means 'friend' in English?",
+      "od": "ଇଂରାଜୀରେ 'ବନ୍ଧୁ' ଅର୍ଥ କେଉଁ ଶବ୍ଦ?",
+      "hi": "अंग्रेजी में 'मित्र' का अर्थ कौन सा शब्द है?"
+    },
+    "options": [
+      "Enemy",
+      "Friend",
+      "Stranger",
+      "Teacher"
+    ],
+    "correct": 1,
+    "explanation": {
+      "en": "Friend means companion or buddy",
+      "od": "'Friend' ଅର୍ଥ ବନ୍ଧୁ କିମ୍ବା ସାଙ୍ଗ",
+      "hi": "'Friend' का अर्थ मित्र या दोस्त होता है"
+    }
+  }
+]
